@@ -6,6 +6,12 @@ import string
 from collections import OrderedDict
 import openpyxl
 
+"""
+Written for the legends of ESP (https://sepush.co.za/)
+Hopefully this helps to keep on top of the wonderful joy
+that Eskom call LoadShedding.
+"""
+
 def clean_string(string_to_clean):
     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
     return ''.join(c for c in string_to_clean if c in valid_chars)
@@ -30,7 +36,7 @@ class SheetReader:
 
     def load_schedule(self):
         self.schedules = []
-        sheet = self.workbook.get_sheet_by_name('Schedule (4H)')
+        sheet = self.workbook.get_sheet_by_name('Schedule (4H)')  # Main schedule sheet
         self.province = sheet['A6'].value
         start_time = ''
         end_time = ''
@@ -81,7 +87,7 @@ class SheetReader:
                         writer.writerow(row)
 
 if __name__ == '__main__':
-    srcdir = os.path.join(os.getcwd(), 'schedules')
+    srcdir = os.path.join(os.getcwd(), 'schedules')  # from http://www.eskom.co.za/Pages/LS_schedules.aspx
     for file in os.listdir(srcdir):
         if file.endswith('.xlsx'):
             s = SheetReader(os.path.join(srcdir, file))
